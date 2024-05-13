@@ -1,0 +1,30 @@
+VAR_GLOBAL {
+   
+    
+}
+
+DECLARATION {
+    INTEGER k, x;
+    
+    CONST w = 1 ;
+}
+
+INSTRUCTION {
+    k = 3;
+    %% Commentaire
+    IF (a > b) {
+        WRITE("a est plus grand que b");
+    } 
+
+    FOR (i: 0: 1: n) {
+        WRITE("La valeur de i est ", i, ".");
+    }
+
+    WHILE (x < y) {
+        x =  5;
+    }
+
+    READ(a);
+    WRITE("La valeur de a est ", a, ".");
+}
+
