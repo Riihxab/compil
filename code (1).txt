@@ -1,0 +1,41 @@
+VARGLOBAL { 
+    INTEGER j; 
+    INTEGER t6;
+   INTEGER t8;
+   INTEGER t9;
+   INTEGER t10;
+   INTEGER t11;
+   INTEGER t12;
+   INTEGER t14;
+   INTEGER t15;
+   INTEGER t16;
+   INTEGER t17;
+   INTEGER t18;
+    }
+DECLARATION { 
+    INTEGER C;  
+    INTEGER F;
+    CONST n=5;
+    }
+INSTRUCTION { 
+    
+t6 = 4*j;
+t8 = j-1 ;    
+              
+t9 = 4 * t8;
+t10 = j+1;
+t11 = t10‐1;
+t12 = 4 * t11;
+t14 = j‐1;
+t15 = 4 * t14;
+t16 = j+1;
+t17 = t16‐1;
+t18 = 4 * t17;
+
+
+ 
+
+
+   
+
+}

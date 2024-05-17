@@ -1,0 +1,1212 @@
+État 62conflits: 2 décalage/réduction
+
+
+Grammaire
+
+    0 $accept: program $end
+
+    1 program: VARGLOBAL '{' declarations '}' DECLARATION '{' declarations '}' INSTRUCTION '{' instructions '}'
+
+    2 declarations: type variable_list ';'
+    3             | type IDF '[' INTEGER ']' ';'
+    4             | CONST IDF EQUAL constant ';'
+
+    5 type: MC_INTEGER
+    6     | MC_FLOAT
+
+    7 variable_list: IDF
+    8              | variable_list ',' IDF
+
+    9 constant: INTEGER
+   10         | FLOAT
+
+   11 instructions: assignment
+   12             | conditional
+   13             | loop
+
+   14 assignment: IDF EQUAL expression ';'
+
+   15 expression: expression '+' expression
+   16           | expression '-' expression
+   17           | expression '*' expression
+   18           | expression '/' expression
+   19           | '(' expression ')'
+   20           | '-' expression
+   21           | IDF
+   22           | constant
+
+   23 conditional: IF '(' condition ')' '{' instructions '}' ELSE '{' instructions '}'
+   24            | IF '(' condition ')' '{' instructions '}'
+
+   25 loop: FOR '(' assignment ';' condition ';' assignment ')' '{' instructions '}'
+   26     | WHILE '(' condition ')' '{' instructions '}'
+
+   27 condition: expression GREATERTHAN expression
+   28          | expression LESSTHAN expression
+   29          | expression GREATERTHANEQUAL expression
+   30          | expression LESSTHANEQUAL expression
+   31          | expression EQUAL2 expression
+   32          | expression NOTEQUAL expression
+   33          | condition AND condition
+   34          | condition OR condition
+   35          | NOT condition
+
+
+Terminaux, suivis des règles où ils apparaissent
+
+$end (0) 0
+'(' (40) 19 23 24 25 26
+')' (41) 19 23 24 25 26
+'*' (42) 17
+'+' (43) 15
+',' (44) 8
+'-' (45) 16 20
+'/' (47) 18
+';' (59) 2 3 4 14 25
+'[' (91) 3
+']' (93) 3
+'{' (123) 1 23 24 25 26
+'}' (125) 1 23 24 25 26
+error (256)
+INTEGER (258) 3 9
+MC_INTEGER (259) 5
+FLOAT (260) 10
+MC_FLOAT (261) 6
+CONST (262) 4
+IDF (263) 3 4 7 8 14 21
+IF (264) 23 24
+ELSE (265) 23
+FOR (266) 25
+WHILE (267) 26
+VARGLOBAL (268) 1
+DECLARATION (269) 1
+INSTRUCTION (270) 1
+LESSTHAN (271) 28
+LESSTHANEQUAL (272) 30
+GREATERTHAN (273) 27
+GREATERTHANEQUAL (274) 29
+EQUAL (275) 4 14
+EQUAL2 (276) 31
+NOTEQUAL (277) 32
+AND (278) 33
+OR (279) 34
+NOT (280) 35
+UMINUS (281)
+
+
+Non-terminaux, suivis des règles où ils apparaissent
+
+$accept (39)
+    à gauche: 0
+program (40)
+    à gauche: 1, à droite: 0
+declarations (41)
+    à gauche: 2 3 4, à droite: 1
+type (42)
+    à gauche: 5 6, à droite: 2 3
+variable_list (43)
+    à gauche: 7 8, à droite: 2 8
+constant (44)
+    à gauche: 9 10, à droite: 4 22
+instructions (45)
+    à gauche: 11 12 13, à droite: 1 23 24 25 26
+assignment (46)
+    à gauche: 14, à droite: 11 25
+expression (47)
+    à gauche: 15 16 17 18 19 20 21 22, à droite: 14 15 16 17 18 19
+    20 27 28 29 30 31 32
+conditional (48)
+    à gauche: 23 24, à droite: 12
+loop (49)
+    à gauche: 25 26, à droite: 13
+condition (50)
+    à gauche: 27 28 29 30 31 32 33 34 35, à droite: 23 24 25 26 33
+    34 35
+
+
+état 0
+
+    0 $accept: . program $end
+
+    VARGLOBAL  décalage et aller à l'état 1
+
+    program  aller à l'état 2
+
+
+état 1
+
+    1 program: VARGLOBAL . '{' declarations '}' DECLARATION '{' declarations '}' INSTRUCTION '{' instructions '}'
+
+    '{'  décalage et aller à l'état 3
+
+
+état 2
+
+    0 $accept: program . $end
+
+    $end  décalage et aller à l'état 4
+
+
+état 3
+
+    1 program: VARGLOBAL '{' . declarations '}' DECLARATION '{' declarations '}' INSTRUCTION '{' instructions '}'
+
+    MC_INTEGER  décalage et aller à l'état 5
+    MC_FLOAT    décalage et aller à l'état 6
+    CONST       décalage et aller à l'état 7
+
+    declarations  aller à l'état 8
+    type          aller à l'état 9
+
+
+état 4
+
+    0 $accept: program $end .
+
+    $défaut  accepter
+
+
+état 5
+
+    5 type: MC_INTEGER .
+
+    $défaut  réduction par utilisation de la règle 5 (type)
+
+
+état 6
+
+    6 type: MC_FLOAT .
+
+    $défaut  réduction par utilisation de la règle 6 (type)
+
+
+état 7
+
+    4 declarations: CONST . IDF EQUAL constant ';'
+
+    IDF  décalage et aller à l'état 10
+
+
+état 8
+
+    1 program: VARGLOBAL '{' declarations . '}' DECLARATION '{' declarations '}' INSTRUCTION '{' instructions '}'
+
+    '}'  décalage et aller à l'état 11
+
+
+état 9
+
+    2 declarations: type . variable_list ';'
+    3             | type . IDF '[' INTEGER ']' ';'
+
+    IDF  décalage et aller à l'état 12
+
+    variable_list  aller à l'état 13
+
+
+état 10
+
+    4 declarations: CONST IDF . EQUAL constant ';'
+
+    EQUAL  décalage et aller à l'état 14
+
+
+état 11
+
+    1 program: VARGLOBAL '{' declarations '}' . DECLARATION '{' declarations '}' INSTRUCTION '{' instructions '}'
+
+    DECLARATION  décalage et aller à l'état 15
+
+
+état 12
+
+    3 declarations: type IDF . '[' INTEGER ']' ';'
+    7 variable_list: IDF .
+
+    '['  décalage et aller à l'état 16
+
+    $défaut  réduction par utilisation de la règle 7 (variable_list)
+
+
+état 13
+
+    2 declarations: type variable_list . ';'
+    8 variable_list: variable_list . ',' IDF
+
+    ';'  décalage et aller à l'état 17
+    ','  décalage et aller à l'état 18
+
+
+état 14
+
+    4 declarations: CONST IDF EQUAL . constant ';'
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+
+    constant  aller à l'état 21
+
+
+état 15
+
+    1 program: VARGLOBAL '{' declarations '}' DECLARATION . '{' declarations '}' INSTRUCTION '{' instructions '}'
+
+    '{'  décalage et aller à l'état 22
+
+
+état 16
+
+    3 declarations: type IDF '[' . INTEGER ']' ';'
+
+    INTEGER  décalage et aller à l'état 23
+
+
+état 17
+
+    2 declarations: type variable_list ';' .
+
+    $défaut  réduction par utilisation de la règle 2 (declarations)
+
+
+état 18
+
+    8 variable_list: variable_list ',' . IDF
+
+    IDF  décalage et aller à l'état 24
+
+
+état 19
+
+    9 constant: INTEGER .
+
+    $défaut  réduction par utilisation de la règle 9 (constant)
+
+
+état 20
+
+   10 constant: FLOAT .
+
+    $défaut  réduction par utilisation de la règle 10 (constant)
+
+
+état 21
+
+    4 declarations: CONST IDF EQUAL constant . ';'
+
+    ';'  décalage et aller à l'état 25
+
+
+état 22
+
+    1 program: VARGLOBAL '{' declarations '}' DECLARATION '{' . declarations '}' INSTRUCTION '{' instructions '}'
+
+    MC_INTEGER  décalage et aller à l'état 5
+    MC_FLOAT    décalage et aller à l'état 6
+    CONST       décalage et aller à l'état 7
+
+    declarations  aller à l'état 26
+    type          aller à l'état 9
+
+
+état 23
+
+    3 declarations: type IDF '[' INTEGER . ']' ';'
+
+    ']'  décalage et aller à l'état 27
+
+
+état 24
+
+    8 variable_list: variable_list ',' IDF .
+
+    $défaut  réduction par utilisation de la règle 8 (variable_list)
+
+
+état 25
+
+    4 declarations: CONST IDF EQUAL constant ';' .
+
+    $défaut  réduction par utilisation de la règle 4 (declarations)
+
+
+état 26
+
+    1 program: VARGLOBAL '{' declarations '}' DECLARATION '{' declarations . '}' INSTRUCTION '{' instructions '}'
+
+    '}'  décalage et aller à l'état 28
+
+
+état 27
+
+    3 declarations: type IDF '[' INTEGER ']' . ';'
+
+    ';'  décalage et aller à l'état 29
+
+
+état 28
+
+    1 program: VARGLOBAL '{' declarations '}' DECLARATION '{' declarations '}' . INSTRUCTION '{' instructions '}'
+
+    INSTRUCTION  décalage et aller à l'état 30
+
+
+état 29
+
+    3 declarations: type IDF '[' INTEGER ']' ';' .
+
+    $défaut  réduction par utilisation de la règle 3 (declarations)
+
+
+état 30
+
+    1 program: VARGLOBAL '{' declarations '}' DECLARATION '{' declarations '}' INSTRUCTION . '{' instructions '}'
+
+    '{'  décalage et aller à l'état 31
+
+
+état 31
+
+    1 program: VARGLOBAL '{' declarations '}' DECLARATION '{' declarations '}' INSTRUCTION '{' . instructions '}'
+
+    IDF    décalage et aller à l'état 32
+    IF     décalage et aller à l'état 33
+    FOR    décalage et aller à l'état 34
+    WHILE  décalage et aller à l'état 35
+
+    instructions  aller à l'état 36
+    assignment    aller à l'état 37
+    conditional   aller à l'état 38
+    loop          aller à l'état 39
+
+
+état 32
+
+   14 assignment: IDF . EQUAL expression ';'
+
+    EQUAL  décalage et aller à l'état 40
+
+
+état 33
+
+   23 conditional: IF . '(' condition ')' '{' instructions '}' ELSE '{' instructions '}'
+   24            | IF . '(' condition ')' '{' instructions '}'
+
+    '('  décalage et aller à l'état 41
+
+
+état 34
+
+   25 loop: FOR . '(' assignment ';' condition ';' assignment ')' '{' instructions '}'
+
+    '('  décalage et aller à l'état 42
+
+
+état 35
+
+   26 loop: WHILE . '(' condition ')' '{' instructions '}'
+
+    '('  décalage et aller à l'état 43
+
+
+état 36
+
+    1 program: VARGLOBAL '{' declarations '}' DECLARATION '{' declarations '}' INSTRUCTION '{' instructions . '}'
+
+    '}'  décalage et aller à l'état 44
+
+
+état 37
+
+   11 instructions: assignment .
+
+    $défaut  réduction par utilisation de la règle 11 (instructions)
+
+
+état 38
+
+   12 instructions: conditional .
+
+    $défaut  réduction par utilisation de la règle 12 (instructions)
+
+
+état 39
+
+   13 instructions: loop .
+
+    $défaut  réduction par utilisation de la règle 13 (instructions)
+
+
+état 40
+
+   14 assignment: IDF EQUAL . expression ';'
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 49
+
+
+état 41
+
+   23 conditional: IF '(' . condition ')' '{' instructions '}' ELSE '{' instructions '}'
+   24            | IF '(' . condition ')' '{' instructions '}'
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    NOT      décalage et aller à l'état 50
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 51
+    condition   aller à l'état 52
+
+
+état 42
+
+   25 loop: FOR '(' . assignment ';' condition ';' assignment ')' '{' instructions '}'
+
+    IDF  décalage et aller à l'état 32
+
+    assignment  aller à l'état 53
+
+
+état 43
+
+   26 loop: WHILE '(' . condition ')' '{' instructions '}'
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    NOT      décalage et aller à l'état 50
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 51
+    condition   aller à l'état 54
+
+
+état 44
+
+    1 program: VARGLOBAL '{' declarations '}' DECLARATION '{' declarations '}' INSTRUCTION '{' instructions '}' .
+
+    $défaut  réduction par utilisation de la règle 1 (program)
+
+
+état 45
+
+   21 expression: IDF .
+
+    $défaut  réduction par utilisation de la règle 21 (expression)
+
+
+état 46
+
+   20 expression: '-' . expression
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 55
+
+
+état 47
+
+   19 expression: '(' . expression ')'
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 56
+
+
+état 48
+
+   22 expression: constant .
+
+    $défaut  réduction par utilisation de la règle 22 (expression)
+
+
+état 49
+
+   14 assignment: IDF EQUAL expression . ';'
+   15 expression: expression . '+' expression
+   16           | expression . '-' expression
+   17           | expression . '*' expression
+   18           | expression . '/' expression
+
+    '+'  décalage et aller à l'état 57
+    '-'  décalage et aller à l'état 58
+    '*'  décalage et aller à l'état 59
+    '/'  décalage et aller à l'état 60
+    ';'  décalage et aller à l'état 61
+
+
+état 50
+
+   35 condition: NOT . condition
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    NOT      décalage et aller à l'état 50
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 51
+    condition   aller à l'état 62
+
+
+état 51
+
+   15 expression: expression . '+' expression
+   16           | expression . '-' expression
+   17           | expression . '*' expression
+   18           | expression . '/' expression
+   27 condition: expression . GREATERTHAN expression
+   28          | expression . LESSTHAN expression
+   29          | expression . GREATERTHANEQUAL expression
+   30          | expression . LESSTHANEQUAL expression
+   31          | expression . EQUAL2 expression
+   32          | expression . NOTEQUAL expression
+
+    LESSTHAN          décalage et aller à l'état 63
+    LESSTHANEQUAL     décalage et aller à l'état 64
+    GREATERTHAN       décalage et aller à l'état 65
+    GREATERTHANEQUAL  décalage et aller à l'état 66
+    EQUAL2            décalage et aller à l'état 67
+    NOTEQUAL          décalage et aller à l'état 68
+    '+'               décalage et aller à l'état 57
+    '-'               décalage et aller à l'état 58
+    '*'               décalage et aller à l'état 59
+    '/'               décalage et aller à l'état 60
+
+
+état 52
+
+   23 conditional: IF '(' condition . ')' '{' instructions '}' ELSE '{' instructions '}'
+   24            | IF '(' condition . ')' '{' instructions '}'
+   33 condition: condition . AND condition
+   34          | condition . OR condition
+
+    AND  décalage et aller à l'état 69
+    OR   décalage et aller à l'état 70
+    ')'  décalage et aller à l'état 71
+
+
+état 53
+
+   25 loop: FOR '(' assignment . ';' condition ';' assignment ')' '{' instructions '}'
+
+    ';'  décalage et aller à l'état 72
+
+
+état 54
+
+   26 loop: WHILE '(' condition . ')' '{' instructions '}'
+   33 condition: condition . AND condition
+   34          | condition . OR condition
+
+    AND  décalage et aller à l'état 69
+    OR   décalage et aller à l'état 70
+    ')'  décalage et aller à l'état 73
+
+
+état 55
+
+   15 expression: expression . '+' expression
+   16           | expression . '-' expression
+   17           | expression . '*' expression
+   18           | expression . '/' expression
+   20           | '-' expression .
+
+    $défaut  réduction par utilisation de la règle 20 (expression)
+
+
+état 56
+
+   15 expression: expression . '+' expression
+   16           | expression . '-' expression
+   17           | expression . '*' expression
+   18           | expression . '/' expression
+   19           | '(' expression . ')'
+
+    '+'  décalage et aller à l'état 57
+    '-'  décalage et aller à l'état 58
+    '*'  décalage et aller à l'état 59
+    '/'  décalage et aller à l'état 60
+    ')'  décalage et aller à l'état 74
+
+
+état 57
+
+   15 expression: expression '+' . expression
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 75
+
+
+état 58
+
+   16 expression: expression '-' . expression
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 76
+
+
+état 59
+
+   17 expression: expression '*' . expression
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 77
+
+
+état 60
+
+   18 expression: expression '/' . expression
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 78
+
+
+état 61
+
+   14 assignment: IDF EQUAL expression ';' .
+
+    $défaut  réduction par utilisation de la règle 14 (assignment)
+
+
+état 62
+
+   33 condition: condition . AND condition
+   34          | condition . OR condition
+   35          | NOT condition .
+
+    AND  décalage et aller à l'état 69
+    OR   décalage et aller à l'état 70
+
+    AND      [réduction par utilisation de la règle 35 (condition)]
+    OR       [réduction par utilisation de la règle 35 (condition)]
+    $défaut  réduction par utilisation de la règle 35 (condition)
+
+
+état 63
+
+   28 condition: expression LESSTHAN . expression
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 79
+
+
+état 64
+
+   30 condition: expression LESSTHANEQUAL . expression
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 80
+
+
+état 65
+
+   27 condition: expression GREATERTHAN . expression
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 81
+
+
+état 66
+
+   29 condition: expression GREATERTHANEQUAL . expression
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 82
+
+
+état 67
+
+   31 condition: expression EQUAL2 . expression
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 83
+
+
+état 68
+
+   32 condition: expression NOTEQUAL . expression
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 84
+
+
+état 69
+
+   33 condition: condition AND . condition
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    NOT      décalage et aller à l'état 50
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 51
+    condition   aller à l'état 85
+
+
+état 70
+
+   34 condition: condition OR . condition
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    NOT      décalage et aller à l'état 50
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 51
+    condition   aller à l'état 86
+
+
+état 71
+
+   23 conditional: IF '(' condition ')' . '{' instructions '}' ELSE '{' instructions '}'
+   24            | IF '(' condition ')' . '{' instructions '}'
+
+    '{'  décalage et aller à l'état 87
+
+
+état 72
+
+   25 loop: FOR '(' assignment ';' . condition ';' assignment ')' '{' instructions '}'
+
+    INTEGER  décalage et aller à l'état 19
+    FLOAT    décalage et aller à l'état 20
+    IDF      décalage et aller à l'état 45
+    NOT      décalage et aller à l'état 50
+    '-'      décalage et aller à l'état 46
+    '('      décalage et aller à l'état 47
+
+    constant    aller à l'état 48
+    expression  aller à l'état 51
+    condition   aller à l'état 88
+
+
+état 73
+
+   26 loop: WHILE '(' condition ')' . '{' instructions '}'
+
+    '{'  décalage et aller à l'état 89
+
+
+état 74
+
+   19 expression: '(' expression ')' .
+
+    $défaut  réduction par utilisation de la règle 19 (expression)
+
+
+état 75
+
+   15 expression: expression . '+' expression
+   15           | expression '+' expression .
+   16           | expression . '-' expression
+   17           | expression . '*' expression
+   18           | expression . '/' expression
+
+    '*'  décalage et aller à l'état 59
+    '/'  décalage et aller à l'état 60
+
+    $défaut  réduction par utilisation de la règle 15 (expression)
+
+
+état 76
+
+   15 expression: expression . '+' expression
+   16           | expression . '-' expression
+   16           | expression '-' expression .
+   17           | expression . '*' expression
+   18           | expression . '/' expression
+
+    '*'  décalage et aller à l'état 59
+    '/'  décalage et aller à l'état 60
+
+    $défaut  réduction par utilisation de la règle 16 (expression)
+
+
+état 77
+
+   15 expression: expression . '+' expression
+   16           | expression . '-' expression
+   17           | expression . '*' expression
+   17           | expression '*' expression .
+   18           | expression . '/' expression
+
+    $défaut  réduction par utilisation de la règle 17 (expression)
+
+
+état 78
+
+   15 expression: expression . '+' expression
+   16           | expression . '-' expression
+   17           | expression . '*' expression
+   18           | expression . '/' expression
+   18           | expression '/' expression .
+
+    $défaut  réduction par utilisation de la règle 18 (expression)
+
+
+état 79
+
+   15 expression: expression . '+' expression
+   16           | expression . '-' expression
+   17           | expression . '*' expression
+   18           | expression . '/' expression
+   28 condition: expression LESSTHAN expression .
+
+    '+'  décalage et aller à l'état 57
+    '-'  décalage et aller à l'état 58
+    '*'  décalage et aller à l'état 59
+    '/'  décalage et aller à l'état 60
+
+    $défaut  réduction par utilisation de la règle 28 (condition)
+
+
+état 80
+
+   15 expression: expression . '+' expression
+   16           | expression . '-' expression
+   17           | expression . '*' expression
+   18           | expression . '/' expression
+   30 condition: expression LESSTHANEQUAL expression .
+
+    '+'  décalage et aller à l'état 57
+    '-'  décalage et aller à l'état 58
+    '*'  décalage et aller à l'état 59
+    '/'  décalage et aller à l'état 60
+
+    $défaut  réduction par utilisation de la règle 30 (condition)
+
+
+état 81
+
+   15 expression: expression . '+' expression
+   16           | expression . '-' expression
+   17           | expression . '*' expression
+   18           | expression . '/' expression
+   27 condition: expression GREATERTHAN expression .
+
+    '+'  décalage et aller à l'état 57
+    '-'  décalage et aller à l'état 58
+    '*'  décalage et aller à l'état 59
+    '/'  décalage et aller à l'état 60
+
+    $défaut  réduction par utilisation de la règle 27 (condition)
+
+
+état 82
+
+   15 expression: expression . '+' expression
+   16           | expression . '-' expression
+   17           | expression . '*' expression
+   18           | expression . '/' expression
+   29 condition: expression GREATERTHANEQUAL expression .
+
+    '+'  décalage et aller à l'état 57
+    '-'  décalage et aller à l'état 58
+    '*'  décalage et aller à l'état 59
+    '/'  décalage et aller à l'état 60
+
+    $défaut  réduction par utilisation de la règle 29 (condition)
+
+
+état 83
+
+   15 expression: expression . '+' expression
+   16           | expression . '-' expression
+   17           | expression . '*' expression
+   18           | expression . '/' expression
+   31 condition: expression EQUAL2 expression .
+
+    '+'  décalage et aller à l'état 57
+    '-'  décalage et aller à l'état 58
+    '*'  décalage et aller à l'état 59
+    '/'  décalage et aller à l'état 60
+
+    $défaut  réduction par utilisation de la règle 31 (condition)
+
+
+état 84
+
+   15 expression: expression . '+' expression
+   16           | expression . '-' expression
+   17           | expression . '*' expression
+   18           | expression . '/' expression
+   32 condition: expression NOTEQUAL expression .
+
+    '+'  décalage et aller à l'état 57
+    '-'  décalage et aller à l'état 58
+    '*'  décalage et aller à l'état 59
+    '/'  décalage et aller à l'état 60
+
+    $défaut  réduction par utilisation de la règle 32 (condition)
+
+
+état 85
+
+   33 condition: condition . AND condition
+   33          | condition AND condition .
+   34          | condition . OR condition
+
+    $défaut  réduction par utilisation de la règle 33 (condition)
+
+
+état 86
+
+   33 condition: condition . AND condition
+   34          | condition . OR condition
+   34          | condition OR condition .
+
+    AND  décalage et aller à l'état 69
+
+    $défaut  réduction par utilisation de la règle 34 (condition)
+
+
+état 87
+
+   23 conditional: IF '(' condition ')' '{' . instructions '}' ELSE '{' instructions '}'
+   24            | IF '(' condition ')' '{' . instructions '}'
+
+    IDF    décalage et aller à l'état 32
+    IF     décalage et aller à l'état 33
+    FOR    décalage et aller à l'état 34
+    WHILE  décalage et aller à l'état 35
+
+    instructions  aller à l'état 90
+    assignment    aller à l'état 37
+    conditional   aller à l'état 38
+    loop          aller à l'état 39
+
+
+état 88
+
+   25 loop: FOR '(' assignment ';' condition . ';' assignment ')' '{' instructions '}'
+   33 condition: condition . AND condition
+   34          | condition . OR condition
+
+    AND  décalage et aller à l'état 69
+    OR   décalage et aller à l'état 70
+    ';'  décalage et aller à l'état 91
+
+
+état 89
+
+   26 loop: WHILE '(' condition ')' '{' . instructions '}'
+
+    IDF    décalage et aller à l'état 32
+    IF     décalage et aller à l'état 33
+    FOR    décalage et aller à l'état 34
+    WHILE  décalage et aller à l'état 35
+
+    instructions  aller à l'état 92
+    assignment    aller à l'état 37
+    conditional   aller à l'état 38
+    loop          aller à l'état 39
+
+
+état 90
+
+   23 conditional: IF '(' condition ')' '{' instructions . '}' ELSE '{' instructions '}'
+   24            | IF '(' condition ')' '{' instructions . '}'
+
+    '}'  décalage et aller à l'état 93
+
+
+état 91
+
+   25 loop: FOR '(' assignment ';' condition ';' . assignment ')' '{' instructions '}'
+
+    IDF  décalage et aller à l'état 32
+
+    assignment  aller à l'état 94
+
+
+état 92
+
+   26 loop: WHILE '(' condition ')' '{' instructions . '}'
+
+    '}'  décalage et aller à l'état 95
+
+
+état 93
+
+   23 conditional: IF '(' condition ')' '{' instructions '}' . ELSE '{' instructions '}'
+   24            | IF '(' condition ')' '{' instructions '}' .
+
+    ELSE  décalage et aller à l'état 96
+
+    $défaut  réduction par utilisation de la règle 24 (conditional)
+
+
+état 94
+
+   25 loop: FOR '(' assignment ';' condition ';' assignment . ')' '{' instructions '}'
+
+    ')'  décalage et aller à l'état 97
+
+
+état 95
+
+   26 loop: WHILE '(' condition ')' '{' instructions '}' .
+
+    $défaut  réduction par utilisation de la règle 26 (loop)
+
+
+état 96
+
+   23 conditional: IF '(' condition ')' '{' instructions '}' ELSE . '{' instructions '}'
+
+    '{'  décalage et aller à l'état 98
+
+
+état 97
+
+   25 loop: FOR '(' assignment ';' condition ';' assignment ')' . '{' instructions '}'
+
+    '{'  décalage et aller à l'état 99
+
+
+état 98
+
+   23 conditional: IF '(' condition ')' '{' instructions '}' ELSE '{' . instructions '}'
+
+    IDF    décalage et aller à l'état 32
+    IF     décalage et aller à l'état 33
+    FOR    décalage et aller à l'état 34
+    WHILE  décalage et aller à l'état 35
+
+    instructions  aller à l'état 100
+    assignment    aller à l'état 37
+    conditional   aller à l'état 38
+    loop          aller à l'état 39
+
+
+état 99
+
+   25 loop: FOR '(' assignment ';' condition ';' assignment ')' '{' . instructions '}'
+
+    IDF    décalage et aller à l'état 32
+    IF     décalage et aller à l'état 33
+    FOR    décalage et aller à l'état 34
+    WHILE  décalage et aller à l'état 35
+
+    instructions  aller à l'état 101
+    assignment    aller à l'état 37
+    conditional   aller à l'état 38
+    loop          aller à l'état 39
+
+
+état 100
+
+   23 conditional: IF '(' condition ')' '{' instructions '}' ELSE '{' instructions . '}'
+
+    '}'  décalage et aller à l'état 102
+
+
+état 101
+
+   25 loop: FOR '(' assignment ';' condition ';' assignment ')' '{' instructions . '}'
+
+    '}'  décalage et aller à l'état 103
+
+
+état 102
+
+   23 conditional: IF '(' condition ')' '{' instructions '}' ELSE '{' instructions '}' .
+
+    $défaut  réduction par utilisation de la règle 23 (conditional)
+
+
+état 103
+
+   25 loop: FOR '(' assignment ';' condition ';' assignment ')' '{' instructions '}' .
+
+    $défaut  réduction par utilisation de la règle 25 (loop)
